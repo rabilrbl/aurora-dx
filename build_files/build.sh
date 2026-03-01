@@ -10,7 +10,7 @@ set -ouex pipefail
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y tmux 
+# dnf5 install -y tmux 
 
 # Use a COPR Example:
 #
@@ -23,10 +23,10 @@ dnf5 install -y tmux
 dnf5 install -y plasma-login-manager
 dnf5 remove -y sddm
 
-### Enable System Units
-systemctl disable sddm.service || true
-systemctl enable plasma-login-manager.service
+### Set plasma-login-manager as the default display manager
+mkdir -p /etc/systemd/system
+ln -sf /usr/lib/systemd/system/plasmalogin.service /etc/systemd/system/display-manager.service
 
 #### Example for enabling a System Unit File
 
-systemctl enable podman.socket
+# systemctl enable podman.socket
