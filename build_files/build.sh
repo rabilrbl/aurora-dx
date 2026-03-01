@@ -21,10 +21,6 @@ dnf5 install -y plasma-login-manager
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
 
-dnf5 -y copr enable whitehara/kernel-cachyos-zen3-preempt
-dnf5 install -y --best kernel || echo "Kernel installation skipped due to conflicts"
-dnf5 -y copr disable whitehara/kernel-cachyos-zen3-preempt
-
 #### Example for enabling a System Unit File
 
 # systemctl enable podman.socket
