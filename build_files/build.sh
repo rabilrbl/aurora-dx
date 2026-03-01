@@ -19,6 +19,14 @@ dnf5 install -y tmux
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
 
+### Replace SDDM with plasma-login-manager
+dnf5 install -y plasma-login-manager
+dnf5 remove -y sddm
+
+### Enable System Units
+systemctl disable sddm.service || true
+systemctl enable plasma-login-manager.service
+
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
