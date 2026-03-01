@@ -19,11 +19,6 @@ set -ouex pipefail
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
 
-### Remove starship from the image
-# Users who want starship should install it via their package manager (e.g., brew)
-# This approach is more maintainable and allows users to have their choice of shell prompt
-dnf5 remove -y starship
-
 ### Replace SDDM with plasma-login-manager
 dnf5 install -y plasma-login-manager
 dnf5 remove -y sddm
