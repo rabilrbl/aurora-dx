@@ -12,6 +12,15 @@ set -ouex pipefail
 # this installs a package from fedora repos
 # dnf5 install -y tmux
 
+### Fix: Upgrade kwin to 6.6.2 from updates-testing to fix
+### kwin_wayland SIGSEGV crash with external USB-C DP displays
+### (KDE Bug #516452). Remove this once 6.6.2 lands in stable repos.
+dnf5 upgrade -y --enablerepo=updates-testing \
+    kwin \
+    kwin-wayland \
+    kwin-libs \
+    kwin-common
+
 # Use a COPR Example:
 #
 # dnf5 -y copr enable ublue-os/staging
