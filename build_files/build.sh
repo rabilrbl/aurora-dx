@@ -2,23 +2,23 @@
 
 set -ouex pipefail
 
-### Install packages
+FEDORA_VERSION="$(rpm -E %fedora)"
+CACHY_REPO_PATH="/etc/yum.repos.d/bieszczaders-kernel-cachyos-fedora-${FEDORA_VERSION}.repo"
 
-# Packages can be installed from any enabled yum repo on the image.
-# RPMfusion repos are available by default in ublue main images
-# List of rpmfusion packages can be found here:
-# https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
+curl -fsSL \
+  "https://copr.fedorainfracloud.org/coprs/bieszczaders/kernel-cachyos/repo/fedora-${FEDORA_VERSION}/bieszczaders-kernel-cachyos-fedora-${FEDORA_VERSION}.repo" \
+  -o "${CACHY_REPO_PATH}"
 
-# this installs a package from fedora repos
-# dnf5 install -y tmux
+rpm-ostree override remove \
+  kernel \
+  kernel-core \
+  kernel-modules \
+  kernel-modules-core \
+  kernel-modules-extra \
+  kernel-devel \
+  kernel-devel-matched \
+  --install kernel-cachyos \
+  --install kernel-cachyos-devel-matched
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
-
-#### Example for enabling a System Unit File
-
-# systemctl enable podman.socket
+rm -f "${CACHY_REPO_PATH}"
+dnf5 clean all
