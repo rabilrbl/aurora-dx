@@ -4,13 +4,15 @@ Custom [bootc](https://github.com/bootc-dev/bootc) image based on Aurora DX for 
 Use this repo to keep the image small, reproducible, and tuned for the hardware you actually use.
 
 Current customizations:
+> [!NOTE]
+> Secure Boot must be disabled for this kernel swap unless you add your own kernel signing/enrollment flow.
+
 - CachyOS performance-optimized kernel (`kernel-cachyos`) instead of the stock Fedora kernel
 - Matching CachyOS kernel devel package for module/tooling compatibility
 - Build-time kernel swap handled in `build_files/build.sh` via dnf5 + COPR, with initramfs rebuilt in the image
 - CachyOS settings and KSM tuning packages (`cachyos-settings`, `cachyos-ksm-settings`) baked into the image
 - KSMD enabled by default through a custom systemd unit
 - KWin Better Blur DX installed from the `infinality/kwin-effects-better-blur-dx` COPR
-- Secure Boot must be disabled for this kernel swap unless you add your own kernel signing/enrollment flow
 - Intended for x86-64-v3-or-newer hardware
 
 Credit: parts of the kernel/customization flow were adapted from sihawken's `cachyos-kernel-bazzite-dx` repo:
