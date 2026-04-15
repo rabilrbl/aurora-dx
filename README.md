@@ -12,7 +12,6 @@ Current customizations:
 - Build-time kernel swap handled in `build_files/build.sh` via dnf5 + COPR, with initramfs rebuilt in the image
 - CachyOS settings and KSM tuning packages (`cachyos-settings`, `cachyos-ksm-settings`) baked into the image
 - KSMD enabled by default through a custom systemd unit
-- KWin Better Blur DX installed from the `infinality/kwin-effects-better-blur-dx` COPR
 - Intended for x86-64-v3-or-newer hardware
 
 Credit: parts of the kernel/customization flow were adapted from sihawken's `cachyos-kernel-bazzite-dx` repo:
