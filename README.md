@@ -6,7 +6,8 @@ Use this repo to keep the image small, reproducible, and tuned for the hardware 
 Current customizations:
 - CachyOS performance-optimized kernel (`kernel-cachyos`) instead of the stock Fedora kernel
 - Matching CachyOS kernel devel package for module/tooling compatibility
-- Intended for x86-64-v3-or-newer hardware like the Zenbook's i7-1165G7
+- Build-time kernel swap handled in `build_files/build.sh` via dnf5 + COPR, with initramfs rebuilt in the image
+- Intended for x86-64-v3-or-newer hardware
 
 # Community
 
