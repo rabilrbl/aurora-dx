@@ -2,9 +2,8 @@
 
 set -ouex pipefail
 
-source /usr/lib/os-release
-FEDORA_VERSION="${VERSION_ID}"
-BASEARCH="$(arch)"
+# Kernel swap flow adapted from:
+# https://github.com/sihawken/cachyos-kernel-bazzite-dx
 
 sed -i '/^\[main\]/a max_parallel_downloads=10' /etc/dnf/dnf.conf || true
 
@@ -37,7 +36,30 @@ dnf5 remove -y "${REMOVE_PACKAGES[@]}"
 rm -rf /lib/modules/*
 dnf5 install -y kernel-cachyos kernel-cachyos-devel-matched --allowerasing
 
-dnf5 -y copr disable bieszczaders/kernel-cachyos || true
+dnf5 -y copr enable bieszczaders/kernel-cachyos-addons
+dnf5 -y copr enable infinality/kwin-effects-better-blur-dx
+
+rm -f /usr/lib/systemd/coredump.conf
+
+dnf5 install -y libcap-ng libcap-ng-devel procps-ng procps-ng-devel
+dnf5 install -y cachyos-settings cachyos-ksm-settings kwin-effects-better-blur-dx --allowerasing
+
+tee /usr/lib/systemd/system/ksmd.service >/dev/null <<'EOF'
+[Unit]
+Description=Activates Kernel Samepage Merging
+ConditionPathExists=/sys/kernel/mm/ksm
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ksmctl -e
+ExecStop=/usr/bin/ksmctl -d
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+ln -sf /usr/lib/systemd/system/ksmd.service /etc/systemd/system/multi-user.target.wants/ksmd.service
 
 cd /usr/lib/kernel/install.d
 mv -f 05-rpmostree.install.bak 05-rpmostree.install
