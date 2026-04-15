@@ -32,7 +32,7 @@ for optional_package in kernel-uki-virt kmod-xone; do
 done
 
 dnf5 -y copr enable bieszczaders/kernel-cachyos
-dnf5 remove -y "${REMOVE_PACKAGES[@]}"
+dnf5 remove -y --setopt=protect_running_kernel=false "${REMOVE_PACKAGES[@]}"
 rm -rf /lib/modules/*
 dnf5 install -y kernel-cachyos kernel-cachyos-devel-matched --allowerasing
 
