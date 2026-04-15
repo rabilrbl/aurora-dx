@@ -3,6 +3,11 @@
 Custom [bootc](https://github.com/bootc-dev/bootc) image based on Aurora DX for Rabil's workstation.
 Use this repo to keep the image small, reproducible, and tuned for the hardware you actually use.
 
+Current customizations:
+- CachyOS performance-optimized kernel (`kernel-cachyos`) instead of the stock Fedora kernel
+- Matching CachyOS kernel devel package for module/tooling compatibility
+- Intended for x86-64-v3-or-newer hardware like the Zenbook's i7-1165G7
+
 # Community
 
 If you have questions about this template after following the instructions, try the following spaces:
