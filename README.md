@@ -10,6 +10,7 @@ Current customizations:
 - CachyOS settings and KSM tuning packages (`cachyos-settings`, `cachyos-ksm-settings`) baked into the image
 - KSMD enabled by default through a custom systemd unit
 - KWin Better Blur DX installed from the `infinality/kwin-effects-better-blur-dx` COPR
+- Secure Boot must be disabled for this kernel swap unless you add your own kernel signing/enrollment flow
 - Intended for x86-64-v3-or-newer hardware
 
 Credit: parts of the kernel/customization flow were adapted from sihawken's `cachyos-kernel-bazzite-dx` repo:
