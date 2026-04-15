@@ -17,6 +17,8 @@ rpm-ostree override remove \
   kernel-modules-extra \
   kernel-devel \
   kernel-devel-matched \
+  kernel-uki-virt \
+  kmod-xone \
   --install kernel-cachyos \
   --install kernel-cachyos-devel-matched
 
