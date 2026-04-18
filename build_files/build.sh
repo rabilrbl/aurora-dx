@@ -51,6 +51,15 @@ fi
 
 dnf5 install -y curl tar xz zed
 
+if [[ "$(uname -m)" != "x86_64" ]]; then
+  echo "Spotify native RPM is only available for x86_64." >&2
+  exit 1
+fi
+
+curl -fsSL https://negativo17.org/repos/fedora-spotify.repo -o /etc/yum.repos.d/fedora-spotify.repo
+dnf5 install -y spotify-client
+rm -f /etc/yum.repos.d/fedora-spotify.repo
+
 case "$(uname -m)" in
   x86_64)
     ZEN_ARCH="x86_64"
