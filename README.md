@@ -14,6 +14,7 @@ Current customizations:
 - KSMD enabled by default through a custom systemd unit
 - Bundled Aurora DX VS Code package removed from the image
 - Zed installed as a native RPM from Terra
+- Warp Terminal installed as a native RPM from the official Warp repository
 - Zen Browser installed natively from the upstream Linux tarball, with desktop integration
 - Spotify installed as a native RPM from the Negativo17 Fedora repository
 - Intended for x86-64-v3-or-newer hardware
