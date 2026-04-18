@@ -42,7 +42,6 @@ rm -f /usr/lib/systemd/coredump.conf
 
 dnf5 install -y libcap-ng libcap-ng-devel procps-ng procps-ng-devel
 dnf5 install -y cachyos-settings cachyos-ksm-settings --allowerasing
-dnf5 install -y zen-browser zed
 
 tee /usr/lib/systemd/system/ksmd.service >/dev/null <<'EOF'
 [Unit]
