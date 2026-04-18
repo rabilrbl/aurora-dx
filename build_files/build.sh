@@ -64,6 +64,7 @@ enabled=1
 gpgcheck=1
 gpgkey=https://releases.warp.dev/linux/keys/warp.asc
 EOF
+mkdir -p /opt/warpdotdev
 dnf5 install -y warp-terminal
 
 curl -fsSL https://negativo17.org/repos/fedora-spotify.repo -o /etc/yum.repos.d/fedora-spotify.repo
