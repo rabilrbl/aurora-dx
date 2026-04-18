@@ -12,6 +12,9 @@ Current customizations:
 - Build-time kernel swap handled in `build_files/build.sh` via dnf5 + COPR, with initramfs rebuilt in the image
 - CachyOS settings and KSM tuning packages (`cachyos-settings`, `cachyos-ksm-settings`) baked into the image
 - KSMD enabled by default through a custom systemd unit
+- Bundled Aurora DX VS Code package removed from the image
+- Zed installed as a native RPM from Terra
+- Zen Browser installed natively from the upstream Linux tarball, with desktop integration
 - Intended for x86-64-v3-or-newer hardware
 
 Credit: parts of the kernel/customization flow were adapted from sihawken's `cachyos-kernel-bazzite-dx` repo:
