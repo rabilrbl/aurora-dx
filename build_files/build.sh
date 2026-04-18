@@ -88,14 +88,13 @@ case "${ZEN_TARBALL_URL}" in
     ;;
 esac
 
-rm -rf /opt/zen-browser /opt/zen
-mkdir -p /opt
-curl -fsSL "${ZEN_TARBALL_URL}" | tar "${ZEN_TAR_ARGS[@]}" -C /opt
-mv /opt/zen /opt/zen-browser
-ln -sf /opt/zen-browser/zen /usr/bin/zen
+rm -rf /usr/lib/zen-browser /usr/lib/zen
+curl -fsSL "${ZEN_TARBALL_URL}" | tar "${ZEN_TAR_ARGS[@]}" -C /usr/lib
+mv /usr/lib/zen /usr/lib/zen-browser
+ln -sf /usr/lib/zen-browser/zen /usr/bin/zen
 
 for icon_size in 256 128 64 48 32 16; do
-  ZEN_ICON="/opt/zen-browser/browser/chrome/icons/default/default${icon_size}.png"
+  ZEN_ICON="/usr/lib/zen-browser/browser/chrome/icons/default/default${icon_size}.png"
   if [[ -f "${ZEN_ICON}" ]]; then
     install -Dm0644 "${ZEN_ICON}" "/usr/share/icons/hicolor/${icon_size}x${icon_size}/apps/zen-browser.png"
     break
