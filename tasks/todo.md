@@ -58,6 +58,8 @@ Add Intel userspace graphics/media support for Tiger Lake Iris Xe including VA-A
 
 ## Task 3: Implement suspend/resume + external display reliability slice
 
+**Status:** Done
+
 **Description:**  
 Add targeted settings/packages needed for stable suspend/resume and external monitor workflows on UX425EA, avoiding broad risky kernel-level changes unless required.
 
@@ -83,6 +85,8 @@ Add targeted settings/packages needed for stable suspend/resume and external mon
 ---
 
 ## Task 4: Implement built-in peripheral reliability slice (audio/camera/Wi-Fi/BT)
+
+**Status:** Done
 
 **Description:**  
 Ensure integrated peripherals on UX425EA are enabled and reliable out of box, including required firmware/userspace support and service defaults.
@@ -111,6 +115,8 @@ Ensure integrated peripherals on UX425EA are enabled and reliable out of box, in
 
 ## Task 5: Implement balanced perf/power tuning slice
 
+**Status:** Done
+
 **Description:**  
 Apply balanced daily-use performance and power policies for Tiger Lake laptop behavior, favoring stable thermals/battery over aggressive max-performance tuning.
 
@@ -136,6 +142,8 @@ Apply balanced daily-use performance and power policies for Tiger Lake laptop be
 ---
 
 ## Task 6: Add validation automation + acceptance runbook
+
+**Status:** Done
 
 **Description:**  
 Create reproducible validation flow that maps SPEC success criteria to concrete build commands and on-device runtime checks, including evidence capture format.

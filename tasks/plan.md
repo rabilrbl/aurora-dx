@@ -32,27 +32,27 @@ Base image + kernel swap + firmware compatibility
 
 ### Checkpoint: After Phase 1
 - [ ] `just check` passes
-- [ ] `just lint` passes
-- [ ] `just build localhost/aurora-dx latest` succeeds
+- [x] `just lint` passes
+- [x] `just build localhost/aurora-dx latest` succeeds
 - [ ] Image contains intended Intel graphics/media packages
 
 ### Phase 2: Reliability Slices
-- [ ] Task 3: Implement suspend/resume + external display reliability slice.
-- [ ] Task 4: Implement built-in peripheral reliability slice (audio/camera/Wi-Fi/BT).
+- [x] Task 3: Implement suspend/resume + external display reliability slice.
+- [x] Task 4: Implement built-in peripheral reliability slice (audio/camera/Wi-Fi/BT).
 
 ### Checkpoint: After Phase 2
-- [ ] Build + lint still pass
-- [ ] Runtime verification list updated for display/suspend/peripherals
-- [ ] No manual post-install steps required for core hardware path
+- [x] Build + lint still pass
+- [x] Runtime verification list updated for display/suspend/peripherals
+- [x] No manual post-install steps required for core hardware path
 
 ### Phase 3: Balanced Perf/Power + Validation
-- [ ] Task 5: Implement balanced power/performance tuning slice with measurable targets.
-- [ ] Task 6: Add validation automation and operator documentation for acceptance criteria evidence.
+- [x] Task 5: Implement balanced power/performance tuning slice with measurable targets.
+- [x] Task 6: Add validation automation and operator documentation for acceptance criteria evidence.
 
 ### Checkpoint: Complete
-- [ ] All SPEC success criteria mapped to concrete verification steps
-- [ ] Build pipeline remains reproducible
-- [ ] Plan/todo accepted before implementation starts
+- [x] All SPEC success criteria mapped to concrete verification steps
+- [x] Build pipeline remains reproducible
+- [x] Plan/todo accepted before implementation starts
 
 ## Risks and Mitigations
 | Risk | Impact | Mitigation |

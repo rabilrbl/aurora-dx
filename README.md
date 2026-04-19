@@ -14,6 +14,9 @@ Current customizations:
 - CachyOS settings and KSM tuning packages (`cachyos-settings`, `cachyos-ksm-settings`) baked into the image
 - KSMD enabled by default through a custom systemd unit
 - Intel Iris Xe userspace graphics/media stack (Mesa VA/Vulkan + `libva-intel-media-driver`) with diagnostics tools (`glxinfo`, `vulkaninfo`, `vainfo`) baked into the image
+- UX425EA reliability tuning (`i915 enable_psr=0`) and Thunderbolt tooling (`bolt`, `drm_info`) for suspend/resume + external display stability
+- UX425EA peripheral coverage via `alsa-sof-firmware`, `v4l-utils`, `NetworkManager-wifi`, `bluez`, and PipeWire tools
+- Balanced power stack with `power-profiles-daemon`, `thermald`, `powertop`, `powerstat`, plus a boot-time balanced profile service
 - Bundled Aurora DX VS Code package removed from the image
 - Zed installed as a native RPM from Terra
 - Zen Browser installed natively from the upstream Linux tarball, with desktop integration
@@ -22,6 +25,59 @@ Current customizations:
 
 Credit: parts of the kernel/customization flow were adapted from sihawken's `cachyos-kernel-bazzite-dx` repo:
 https://github.com/sihawken/cachyos-kernel-bazzite-dx
+
+## UX425EA Validation Runbook
+
+### 1. Build-time verification
+
+```bash
+just check    # currently fails in repo due pre-existing Justfile formatting drift
+just lint
+just build localhost/aurora-dx latest
+```
+
+Expected build outcomes:
+- `just lint` completes without shellcheck errors (SC2016 info warning in `core-main.sh` is non-fatal and pre-existing behavior)
+- `just build` completes and tags `localhost/aurora-dx:latest`
+- Bootc lint step reports warnings only (no fatal errors)
+
+### 2. Runtime verification on Asus UX425EA
+
+Run in order after first boot:
+
+```bash
+glxinfo -B
+vulkaninfo --summary
+vainfo
+```
+
+```bash
+boltctl list
+drm_info | head
+```
+
+```bash
+wpctl status
+v4l2-ctl --list-devices
+nmcli device status
+bluetoothctl show
+```
+
+```bash
+powerprofilesctl get
+powerstat -R 1 60
+powertop --time=30 --html=/tmp/powertop-report.html
+```
+
+### 3. Success criteria mapping
+
+| Spec success criterion | Verification evidence |
+|---|---|
+| UX425EA core hardware works out of box | `wpctl`, `v4l2-ctl`, `nmcli`, `bluetoothctl` all return expected devices/status |
+| Iris Xe graphics/media acceleration active | `glxinfo -B`, `vulkaninfo --summary`, `vainfo` show Intel stack |
+| Suspend/resume + external display reliable | Repeated suspend/resume cycles + monitor hotplug test with no lockups; `boltctl`/`drm_info` available |
+| Balanced perf/power targets are measurable | `powerprofilesctl get` reports `balanced`; `powerstat` and `powertop` evidence collected |
+| Changes reproducible in repo build flow | `just lint` and `just build` pass using tracked scripts/configs |
 
 # Community
 
