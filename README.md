@@ -10,8 +10,10 @@ Current customizations:
 - CachyOS performance-optimized kernel (`kernel-cachyos`) instead of the stock Fedora kernel
 - Matching CachyOS kernel devel package for module/tooling compatibility
 - Build-time kernel swap handled in `build_files/build.sh` via dnf5 + COPR, with initramfs rebuilt in the image
+- Hardware profile-driven build flow (`AURORA_HW_PROFILE`, default `ux425ea`) with dedicated per-slice scripts in `build_files/`
 - CachyOS settings and KSM tuning packages (`cachyos-settings`, `cachyos-ksm-settings`) baked into the image
 - KSMD enabled by default through a custom systemd unit
+- Intel Iris Xe userspace graphics/media stack (Mesa VA/Vulkan + `libva-intel-media-driver`) with diagnostics tools (`glxinfo`, `vulkaninfo`, `vainfo`) baked into the image
 - Bundled Aurora DX VS Code package removed from the image
 - Zed installed as a native RPM from Terra
 - Zen Browser installed natively from the upstream Linux tarball, with desktop integration
