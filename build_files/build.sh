@@ -37,6 +37,8 @@ rm -rf /lib/modules/*
 dnf5 install -y kernel-cachyos kernel-cachyos-devel-matched --allowerasing
 
 dnf5 -y copr enable bieszczaders/kernel-cachyos-addons
+dnf5 install -y ananicy-cpp cachyos-ananicy-rules
+systemctl enable ananicy-cpp
 
 rm -f /usr/lib/systemd/coredump.conf
 

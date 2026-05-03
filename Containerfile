@@ -35,7 +35,14 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build.sh
-    
+
+### PERFORMANCE TUNING
+## Zenbook-specific sysctl, I/O scheduler (kyber for NVMe), and zram swap.
+
+RUN echo -e '[zram0]\nzram-size = ram / 2\ncompression-algorithm = zstd' > /etc/systemd/zram-generator.conf && \
+    echo 'ACTION=="add|change", KERNEL=="nvme*", ATTR{queue/scheduler}="kyber"' > /etc/udev/rules.d/60-iosched.rules && \
+    echo -e 'kernel.numa_balancing = 0\nnet.core.default_qdisc = fq' > /etc/sysctl.d/99-aurora.conf
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
