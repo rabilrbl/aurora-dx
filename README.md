@@ -12,6 +12,10 @@ Current customizations:
 - Build-time kernel swap handled in `build_files/build.sh` via dnf5 + COPR, with initramfs rebuilt in the image
 - CachyOS settings and KSM tuning packages (`cachyos-settings`, `cachyos-ksm-settings`) baked into the image
 - KSMD enabled by default through a custom systemd unit
+- zram swap with zstd compression (size = ram / 2)
+- I/O scheduler set to kyber for NVMe via udev rule
+- Custom sysctl: numa_balancing=0, default_qdisc=fq
+- ananicy-cpp process auto-nicer from CachyOS addons COPR
 - Bundled Aurora DX VS Code package removed from the image
 - Zed installed as a native RPM from Terra
 - Zen Browser installed natively from the upstream Linux tarball, with desktop integration

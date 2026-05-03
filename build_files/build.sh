@@ -46,7 +46,7 @@ dnf5 remove -y code || true
 rm -f /etc/yum.repos.d/vscode.repo
 
 if [[ -f /etc/yum.repos.d/terra.repo ]]; then
-  sed -i 's/^enabled=0/enabled=1/' /etc/yum.repos.d/terra.repo
+  dnf5 config-manager setopt terra.enabled=1
 else
   dnf5 install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
 fi
