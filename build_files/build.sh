@@ -66,7 +66,7 @@ rm -f /etc/yum.repos.d/fedora-spotify.repo
 # which prevents execmem and causes an immediate SIGSEGV (the bundled
 # CEF/Chromium engine needs execmem for JIT). Relabel the binary to
 # bin_t so it transitions to unconfined_t where execmem is allowed.
-semanage fcontext -a -t bin_t -s system_u '/usr/lib64/spotify-client/spotify'
+semanage fcontext -a -t bin_t -s system_u '/usr/lib/spotify-client/spotify'
 restorecon -v /usr/lib64/spotify-client/spotify
 
 case "$(uname -m)" in
