@@ -94,7 +94,7 @@ jobs:
 
       - name: Build Image
         id: build_image
-        uses: redhat-actions/buildah-build@061ffd31bb5c3f8733a6f9bbdf00a9fb02eb708c # main, node24
+        uses: redhat-actions/buildah-build@f0f7a33b0c8fe1f8d9498cddd5642b30558c7d14 # main, node24
         with:
           containerfiles: |
             ./Containerfile
