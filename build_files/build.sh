@@ -2,6 +2,9 @@
 
 set -ouex pipefail
 
+# Copy repository-managed system files into the image.
+cp -avf "/ctx/system_files"/. /
+
 # Kernel swap flow adapted from:
 # https://github.com/sihawken/cachyos-kernel-bazzite-dx
 
@@ -46,12 +49,12 @@ dnf5 remove -y code || true
 rm -f /etc/yum.repos.d/vscode.repo
 
 if [[ -f /etc/yum.repos.d/terra.repo ]]; then
-  dnf5 config-manager setopt terra.enabled=1
-else
-  dnf5 install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+  dnf5 config-manager setopt terra.enabled=0
 fi
 
-dnf5 install -y curl tar xz zed
+dnf5 install -y --nogpgcheck \
+  --repofrompath 'terra-direct,https://repos.fyralabs.com/terra$releasever' \
+  curl tar xz zed
 
 if [[ "$(uname -m)" != "x86_64" ]]; then
   echo "Spotify native RPM is only available for x86_64." >&2
