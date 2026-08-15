@@ -11,10 +11,10 @@ on:
         type: boolean
       platform:
         required: true
+        default: amd64
         type: choice
         options:
           - amd64
-          - arm64
 
 env:
   IMAGE_NAME: ${{ github.event.repository.name }} # output of build.yml, keep in sync
@@ -29,7 +29,7 @@ concurrency:
 jobs:
   build:
     name: Build disk images
-    runs-on: ${{ inputs.platform == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -53,16 +53,7 @@ jobs:
           echo "USER_UID=${USER_UID}" >> ${GITHUB_ENV}
           echo "USER_GID=${USER_GID}" >> ${GITHUB_ENV}
 
-      - name: Install dependencies
-        if: inputs.platform == 'arm64'
-        run: |
-          set -x
-          sudo apt update -y
-          sudo apt install -y \
-            podman
-
       - name: Maximize build space
-        if: inputs.platform != 'arm64'
         uses: ublue-os/remove-unwanted-software@cc0becac701cf642c8f0a6613bbdaf5dc36b259e # v9
         with:
           remove-codeql: true
@@ -75,7 +66,7 @@ jobs:
         uses: osbuild/bootc-image-builder-action@8661cd3832544ad68c12dcde8681b13ab0f56a8d # main
         with:
           builder-image: ${{ env.BIB_IMAGE }}
-          config-file: ${{ matrix.disk-type == 'anaconda-iso' && './disk_config/iso-gnome.toml' || './disk_config/disk.toml' }}
+          config-file: ${{ matrix.disk-type == 'anaconda-iso' && './disk_config/iso-kde.toml' || './disk_config/disk.toml' }}
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
           types: ${{ matrix.disk-type }}
