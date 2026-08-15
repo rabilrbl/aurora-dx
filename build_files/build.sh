@@ -45,16 +45,7 @@ systemctl enable ananicy-cpp
 
 rm -f /usr/lib/systemd/coredump.conf
 
-dnf5 remove -y code || true
-rm -f /etc/yum.repos.d/vscode.repo
-
-if [[ -f /etc/yum.repos.d/terra.repo ]]; then
-  dnf5 config-manager setopt terra.enabled=0
-fi
-
-dnf5 install -y --nogpgcheck \
-  --repofrompath 'terra-direct,https://repos.fyralabs.com/terra$releasever' \
-  curl tar xz zed
+dnf5 install -y curl tar xz
 
 case "$(uname -m)" in
   x86_64)

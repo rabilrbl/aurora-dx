@@ -16,8 +16,7 @@ Current customizations:
 - I/O scheduler set to kyber for NVMe via udev rule
 - Custom sysctl: numa_balancing=0, default_qdisc=fq
 - ananicy-cpp process auto-nicer from CachyOS addons COPR
-- Bundled Aurora DX VS Code package removed from the image
-- Zed installed as a native RPM from Terra
+- VS Code retained from the Aurora DX base image
 - Zen Browser installed natively from the upstream Linux tarball, with desktop integration
 - Intended for x86-64-v3-or-newer hardware
 
