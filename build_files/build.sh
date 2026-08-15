@@ -56,22 +56,6 @@ dnf5 install -y --nogpgcheck \
   --repofrompath 'terra-direct,https://repos.fyralabs.com/terra$releasever' \
   curl tar xz zed
 
-if [[ "$(uname -m)" != "x86_64" ]]; then
-  echo "Spotify native RPM is only available for x86_64." >&2
-  exit 1
-fi
-
-curl -fsSL https://negativo17.org/repos/fedora-spotify.repo -o /etc/yum.repos.d/fedora-spotify.repo
-dnf5 install -y spotify-client
-rm -f /etc/yum.repos.d/fedora-spotify.repo
-
-# SELinux: the Spotify binary ends up labeled lib_t under /usr/lib64/,
-# which prevents execmem and causes an immediate SIGSEGV (the bundled
-# CEF/Chromium engine needs execmem for JIT). Relabel the binary to
-# bin_t so it transitions to unconfined_t where execmem is allowed.
-semanage fcontext -a -t bin_t -s system_u '/usr/lib/spotify-client/spotify'
-restorecon -v /usr/lib64/spotify-client/spotify
-
 case "$(uname -m)" in
   x86_64)
     ZEN_ARCH="x86_64"
