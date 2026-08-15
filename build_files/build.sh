@@ -2,6 +2,9 @@
 
 set -ouex pipefail
 
+# Copy repository-managed system files into the image.
+cp -avf "/ctx/system_files"/. /
+
 # Kernel swap flow adapted from:
 # https://github.com/sihawken/cachyos-kernel-bazzite-dx
 
