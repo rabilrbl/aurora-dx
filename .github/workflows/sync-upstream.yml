@@ -15,7 +15,34 @@ permissions:
   issues: write
 
 jobs:
+  check-conflict:
+    runs-on: ubuntu-24.04
+    outputs:
+      blocked: ${{ steps.lookup.outputs.blocked }}
+    steps:
+      - name: Check for open conflict issue
+        id: lookup
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONFLICT_LABEL: upstream-template-sync-conflict
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          issue_count="$(gh api --paginate \
+            "repos/${REPOSITORY}/issues?state=open&labels=${CONFLICT_LABEL}&per_page=100" \
+            | jq -s '[.[][] | select(.pull_request | not)] | length')"
+
+          if [[ "${issue_count}" -gt 0 ]]; then
+            echo "blocked=true" >> "${GITHUB_OUTPUT}"
+            echo "An open upstream sync conflict issue already exists; skipping merge."
+          else
+            echo "blocked=false" >> "${GITHUB_OUTPUT}"
+          fi
+
   sync:
+    needs: check-conflict
+    if: needs.check-conflict.outputs.blocked != 'true'
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout default branch
@@ -63,7 +90,6 @@ jobs:
           RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -euo pipefail
-
           body="The weekly merge from ublue-os/image-template:main could not be completed.
 
           Default branch: ${DEFAULT_BRANCH}
@@ -76,4 +102,5 @@ jobs:
 
           gh issue create \
             --title "Upstream template sync conflict" \
+            --label "upstream-template-sync-conflict" \
             --body "${body}"
