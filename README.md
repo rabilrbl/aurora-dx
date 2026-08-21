@@ -8,7 +8,6 @@ Use this repo to keep the image small, reproducible, and tuned for the hardware 
 - zram swap with zstd compression (size = ram / 2)
 - I/O scheduler set to kyber for NVMe via udev rule
 - Custom sysctl: numa_balancing=0, default_qdisc=fq
-- VS Code retained from the Aurora DX base image
 - Zen Browser installed natively from the upstream Linux tarball, with desktop integration
 - Intended for x86-64-v3-or-newer hardware
 
