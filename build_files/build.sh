@@ -4,9 +4,6 @@ set -ouex pipefail
 
 # Copy repository-managed system files into the image.
 cp -avf "/ctx/system_files"/. /
-
-rm -f /usr/lib/systemd/coredump.conf
-
 dnf5 install -y curl tar xz
 
 case "$(uname -m)" in
