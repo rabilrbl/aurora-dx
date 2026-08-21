@@ -41,7 +41,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 ## Zenbook-specific sysctl, I/O scheduler (kyber for NVMe), and zram swap.
 
 RUN echo -e '[zram0]\nzram-size = ram / 2\ncompression-algorithm = zstd' > /etc/systemd/zram-generator.conf && \
-    echo 'ACTION=="add|change", KERNEL=="nvme*", ATTR{queue/scheduler}="kyber"' > /etc/udev/rules.d/60-iosched.rules && \
+    echo 'ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="nvme[0-9]*n[0-9]*", ENV{DEVTYPE}=="disk", ATTR{queue/scheduler}="kyber"' > /etc/udev/rules.d/60-iosched.rules && \
     echo -e 'kernel.numa_balancing = 0\nnet.core.default_qdisc = fq' > /etc/sysctl.d/99-aurora.conf
 
 ### LINTING

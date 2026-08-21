@@ -50,8 +50,9 @@ just ux425ea-baseline /var/tmp/ux425ea-after
 The collector is read-only. It records the booted image, kernel, hardware,
 OpenGL/Vulkan/VA-API status, i915 messages and parameters, power-management
 ownership, platform profile, sysctls, NVMe scheduler, zram, relevant packages,
-and boot warnings. Review the generated files before sharing them because
-hardware and kernel details can identify the machine.
+and boot warnings. Some protected i915 values use `sudo`; running through `just`
+may therefore show one password prompt. Review the generated files before
+sharing them because hardware and kernel details can identify the machine.
 
 For comparable graphics results, also record the display resolution and refresh
 rate, AC/battery state, selected power profile, Mesa/kernel version, workload,

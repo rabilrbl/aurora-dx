@@ -48,7 +48,7 @@ run_capture kernel uname -a
 run_shell cmdline 'cat /proc/cmdline'
 # The single-quoted commands are intentionally expanded by the nested bash.
 # shellcheck disable=SC2016
-run_shell dmi 'for f in sys-vendor product-name product-version bios-version; do printf "%s: " "$f"; cat "/sys/class/dmi/id/$f" 2>/dev/null || true; done'
+run_shell dmi 'for f in sys_vendor product_name product_version bios_version; do printf "%s: " "$f"; cat "/sys/class/dmi/id/$f" 2>/dev/null || true; done'
 run_capture pci lspci -nnk
 run_capture cpu lscpu
 run_capture memory free -h
@@ -61,19 +61,28 @@ run_capture vaapi vainfo
 run_capture drm drm_info
 run_shell i915-log 'journalctl -b -k --no-pager | grep -Ei "i915|drm|guc|huc|firmware|gpu" || true'
 # shellcheck disable=SC2016
-run_shell i915-parameters 'for f in /sys/module/i915/parameters/{enable_psr,enable_guc,enable_fbc,enable_dc}; do [ -e "$f" ] && printf "%s: " "$f" && cat "$f"; done'
+run_capture i915-parameters sudo bash -c 'for f in /sys/module/i915/parameters/{enable_psr,enable_guc,enable_fbc,enable_dc}; do [ -e "$f" ] && printf "%s: " "$f" && cat "$f"; done'
 run_capture power-profile powerprofilesctl get
 run_capture power-profile-list powerprofilesctl list
 # shellcheck disable=SC2016
 run_shell platform-profile 'for f in /sys/firmware/acpi/platform_profile /sys/firmware/acpi/platform_profile_choices; do [ -e "$f" ] && printf "%s: " "$f" && cat "$f"; done'
 run_capture thermald-systemctl systemctl status thermald --no-pager
 run_capture power-profiles-systemctl systemctl status power-profiles-daemon --no-pager
+run_capture tuned-systemctl systemctl status tuned tuned-ppd --no-pager
+run_capture tuned-active tuned-adm active
+run_capture tuned-recommend tuned-adm recommend
+# shellcheck disable=SC2016
+run_shell cpu-policy 'for f in /sys/devices/system/cpu/cpu0/cpufreq/{scaling_driver,scaling_governor,energy_performance_preference,energy_performance_available_preferences}; do [ -e "$f" ] && printf "%s: " "$f" && cat "$f"; done'
+# shellcheck disable=SC2016
+run_shell gpu-frequency-policy 'for f in /sys/class/drm/card*/gt_{min,max,boost,cur}_freq_mhz; do [ -e "$f" ] && printf "%s: " "$f" && cat "$f"; done'
 run_shell sysctl-custom 'sysctl kernel.numa_balancing net.core.default_qdisc 2>/dev/null || true'
 # shellcheck disable=SC2016
 run_shell nvme-scheduler 'for f in /sys/block/nvme*/queue/scheduler; do [ -e "$f" ] && printf "%s: " "$f" && cat "$f"; done'
 run_capture zram zramctl
 run_shell rpm-graphics 'rpm -qa | sort | grep -Ei "mesa|vulkan|vaapi|libva|firmware|i915|power-profiles|thermald|tuned|zram" || true'
-run_capture display-login loginctl show-session "$(loginctl list-sessions --no-legend 2>/dev/null | awk 'NR==1 {print $1}')" -p Type -p Remote -p State
+run_capture display-login loginctl show-session "${XDG_SESSION_ID:-$(loginctl list-sessions --no-legend 2>/dev/null | awk -v user="$(id -un)" '$3 == user {print $1; exit}')}" -p Type -p Class -p Name -p Remote -p State
+# shellcheck disable=SC2016
+run_shell display-environment 'printf "XDG_SESSION_TYPE=%s\nWAYLAND_DISPLAY=%s\nDISPLAY=%s\n" "${XDG_SESSION_TYPE:-}" "${WAYLAND_DISPLAY:-}" "${DISPLAY:-}"; command -v kscreen-doctor >/dev/null && kscreen-doctor -o || true'
 run_capture journal-errors journalctl -b -p warning..alert --no-pager
 
 printf 'Baseline evidence written to %s\n' "${OUTPUT_DIR}"
