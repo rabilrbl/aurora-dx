@@ -445,6 +445,16 @@ ux425ea-baseline output="":
         ./tools/ux425ea-baseline.sh
     fi
 
+# Compare existing TuneD profiles with a repeatable Vulkan workload
+ux425ea-profile-benchmark output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "{{ output }}" ]]; then
+        ./tools/ux425ea-profile-benchmark.sh "{{ output }}"
+    else
+        ./tools/ux425ea-profile-benchmark.sh
+    fi
+
 # Runs shell check on all Bash scripts
 lint:
     #!/usr/bin/env bash

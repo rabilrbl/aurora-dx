@@ -61,6 +61,19 @@ Vulkan, and VA-API acceleration to remain functional, plus no regression in
 sustained clocks, temperature, battery drain, suspend/resume, or USB-C display
 behavior.
 
+To compare Aurora's existing laptop profiles without installing another power
+manager, run:
+
+```bash
+just ux425ea-profile-benchmark /var/tmp/ux425ea-profiles
+```
+
+The benchmark temporarily compares `throughput-performance` and `balanced`
+using a Wayland Vulkan workload, records package energy and temperatures, and
+restores the original TuneD profile on exit. It is a measurement aid, not a
+claim that `vkcube` represents a game workload. Repeat with the internal panel,
+external display, and battery separately before changing the default policy.
+
 # Community
 
 If you have questions about this template after following the instructions, try the following spaces:
