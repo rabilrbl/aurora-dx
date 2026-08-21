@@ -435,6 +435,16 @@ spawn-vm rebuild="0" type="qcow2" ram="6G":
       --vsock=false --pass-ssh-key=false \
       -i ./output/**/*.{{ type }}
 
+# Collect read-only UX425EA runtime evidence on the deployed system
+ux425ea-baseline output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "{{ output }}" ]]; then
+        ./tools/ux425ea-baseline.sh "{{ output }}"
+    else
+        ./tools/ux425ea-baseline.sh
+    fi
+
 # Runs shell check on all Bash scripts
 lint:
     #!/usr/bin/env bash

@@ -11,6 +11,55 @@ Use this repo to keep the image small, reproducible, and tuned for the hardware 
 - Zen Browser installed natively from the upstream Linux tarball, with desktop integration
 - Intended for x86-64-v3-or-newer hardware
 
+## UX425EA tuning policy
+
+Aurora DX is the base image and already supplies upstream Fedora/Aurora kernel,
+Mesa, firmware, KDE, and power-management integration. This repository must not
+blindly duplicate those components. A downstream optimization is accepted only
+when the base-image behavior is inspected and a before/after measurement on the
+UX425EA shows a benefit without a graphics, battery, thermal, suspend/resume, or
+external-display regression.
+
+The current downstream performance settings are deliberately small:
+
+- zram using zstd at half of physical RAM;
+- an NVMe udev scheduler rule selecting `kyber`;
+- `kernel.numa_balancing=0` and `net.core.default_qdisc=fq`.
+
+These are not assumed to improve Iris Xe performance. They should be retained
+or removed based on workload measurements. In particular, `kyber` and NUMA
+balancing are system-level experiments, not GPU tuning.
+
+Do not add a custom kernel, broad scheduler/sysctl bundle, unsafe undervolt,
+BIOS modification, or global `i915` workaround to the default image without a
+reproducible defect and a rollback plan. The historical UX425EA experiments
+included globally disabling panel self refresh (`i915 enable_psr=0`); that is a
+reliability workaround to test only when the laptop demonstrates a matching
+flicker, resume, or display-freeze problem, not a general performance setting.
+
+### Runtime baseline collection
+
+Run this on the deployed system before and after an image change:
+
+```bash
+just ux425ea-baseline
+# or choose an output directory:
+just ux425ea-baseline /var/tmp/ux425ea-after
+```
+
+The collector is read-only. It records the booted image, kernel, hardware,
+OpenGL/Vulkan/VA-API status, i915 messages and parameters, power-management
+ownership, platform profile, sysctls, NVMe scheduler, zram, relevant packages,
+and boot warnings. Review the generated files before sharing them because
+hardware and kernel details can identify the machine.
+
+For comparable graphics results, also record the display resolution and refresh
+rate, AC/battery state, selected power profile, Mesa/kernel version, workload,
+quality settings, and run duration. Acceptance requires Iris Xe OpenGL,
+Vulkan, and VA-API acceleration to remain functional, plus no regression in
+sustained clocks, temperature, battery drain, suspend/resume, or USB-C display
+behavior.
+
 # Community
 
 If you have questions about this template after following the instructions, try the following spaces:
