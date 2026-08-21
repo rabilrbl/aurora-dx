@@ -59,7 +59,7 @@ measure_once() {
   sleep 5
   before="$(read_value /sys/class/powercap/intel-rapl:0/energy_uj)"
   start="$(date +%s%N)"
-  timeout "${DURATION}s" vkcube --wsi wayland --c 600 --suppress_popups >"${prefix}-vkcube.log" 2>&1
+  timeout "${DURATION}s" vkcube --wsi wayland --suppress_popups >"${prefix}-vkcube.log" 2>&1
   local workload_status=$?
   end="$(date +%s%N)"
   after="$(read_value /sys/class/powercap/intel-rapl:0/energy_uj)"
