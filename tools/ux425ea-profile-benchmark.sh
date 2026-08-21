@@ -90,5 +90,27 @@ for profile in "${PROFILES[@]}"; do
   done
 done
 
+{
+  printf 'profile,runs,mean_energy_uj,min_energy_uj,max_energy_uj,mean_elapsed_ns\n'
+  for profile in "${PROFILES[@]}"; do
+    awk -F= -v profile="${profile}" '
+      /^elapsed_ns=/ { elapsed += $2; elapsed_count++ }
+      /^rapl_delta_uj=[0-9]+$/ {
+        energy += $2
+        energy_count++
+        if (energy_count == 1 || $2 < minimum) minimum = $2
+        if (energy_count == 1 || $2 > maximum) maximum = $2
+      }
+      END {
+        if (energy_count > 0 && elapsed_count > 0)
+          printf "%s,%d,%.0f,%d,%d,%.0f\n", profile, energy_count,
+            energy / energy_count, minimum, maximum, elapsed / elapsed_count
+      }
+    ' "${OUTPUT_DIR}/${profile}-"[0-9]*.txt
+  done
+} >"${OUTPUT_DIR}/summary.csv"
+
+restore_profile
+trap - EXIT
 printf 'Benchmark evidence written to %s\n' "${OUTPUT_DIR}"
 printf 'TuneD profile restored to %s\n' "${ORIGINAL_PROFILE}"
